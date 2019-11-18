@@ -8,7 +8,7 @@ import numpy as np
 FEATURES = 18
 SIZE = 564
 N_IMAGES = 563
-EXTRACT = False
+EXTRACT = True
 
 def extract_features_or_read_file(data):
     featuresPerImage = []
