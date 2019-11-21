@@ -4,11 +4,10 @@ from sklearn.neighbors import KNeighborsClassifier
 import numpy as np
 
 def kmean_cluster(data):
-    return KMeans(n_clusters=3,max_iter=300).fit_predict(data)
+    return KMeans(n_clusters=4,max_iter=300).fit_predict(data)
 
 def dbsan_cluster(data):
-    e = tunning_eps(data)
-    return DBSCAN(eps=e, min_samples=2).fit_predict(data)
+    return DBSCAN(eps=2500, min_samples=2).fit_predict(data)
 
 
 def tunning_eps(data):
