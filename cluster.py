@@ -25,4 +25,3 @@ def tunning_eps(data):
     e = e / 562
     print(f"distance:{e}")
     return e
-    
