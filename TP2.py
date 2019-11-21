@@ -11,7 +11,7 @@ N_IMAGES = 563
 EXTRACT = False
 
 
-def extract_features_or_read_file2(data):    
+def extract_features_or_read_file(data):    
     if EXTRACT:
             ft = extract_feature(data)
             np.savez(f"ft/extracted", ft)
