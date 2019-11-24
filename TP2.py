@@ -2,7 +2,7 @@
 
 from extraction import extract_feature
 from tp2_aux import images_as_matrix,report_clusters
-from cluster import kmean_cluster,dbsan_cluster
+from cluster import kmean_cluster,dbsan_cluster,gmm,birch
 import numpy as np
 from sklearn.neighbors import KNeighborsClassifier
 
@@ -21,13 +21,15 @@ def extract_features_or_read_file(data):
             return np.load("ft/extracted.npz")['arr_0']
 
     
-selected_features = [0,1,2,3,4,5,11,12,13,14,15,16,17]
+selected_features = [0,4,13]
 def main():
     data = images_as_matrix()
     featuresPerImage = extract_features_or_read_file(data)[:,selected_features]
     report_clusters(np.linspace(0, N_IMAGES, num=N_IMAGES), kmean_cluster(featuresPerImage), "kmean.html")
     report_clusters(np.linspace(0, N_IMAGES, num=N_IMAGES), dbsan_cluster(featuresPerImage), "dbsan.html")
-
+    report_clusters(np.linspace(0, N_IMAGES, num=N_IMAGES), gmm(featuresPerImage), "gmm.html")
+    report_clusters(np.linspace(0, N_IMAGES, num=N_IMAGES), birch(featuresPerImage), "birch.html")
+    
     return featuresPerImage
 
 t = main()
@@ -118,3 +120,12 @@ X = t[l[:,1] > 0]
 y = l[l[:,1] > 0][:,1]
 f,prob = f_classif(X,y)
 a = np.sort(f)
+
+
+from sklearn.feature_selection import SelectFromModel
+from sklearn.svm import LinearSVC
+
+lsvc = LinearSVC(C=0.01, penalty="l1", dual=False).fit(t[l[:,1] > 0],l[l[:,1] > 0][:,1])
+model = SelectFromModel(lsvc, prefit=True)
+X_new = model.transform(X)
+X_new.shape
