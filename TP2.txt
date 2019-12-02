@@ -31,10 +31,20 @@ R4: Não.Pois este algoritmo escolhe dinamicamente a quantidade de clusters que 
 
 
 Q5: Descreva a sua análise dos parâmetros k (para K-Means) e epsilon (para DBSCAN) usando os indicadores internos e externos indicados no enunciado. Inclua os dois gráficos com os valores dos indicadores (indicando o nome da imagem de cada plot numa linha da resposta) em função dos parâmetros k e epsilon e descreva a escolha dos intervalos nos quais examinou estes parâmetros. Indique, justificando, que conclusões pode tirar desta análise.
-R5: Para K decidimos usar 4, 3 para as fases e uma para os deformatados. ?????
-
+R5: Imagem K-Means: kmeans_indi.png
+	Imagem DBSAN: dbsan:indi.png
+	Para escolher os intervalos a utilizar para o epsilon, foi analisado o gráfico do cotovelo, e escolhido o range de valores aceitaveis.
+	O valor que produzia os melhores resultados foi 450. Quanto ao valor de k-means, como sabiamos à partida que o número de clusters
+	pretendidos seria 3, apenas decidimos utilizar valores entre 2 e 10.
+	Podemos concluir que 4 é o valor mais indicado para se utilizar no k-means, o que faz sentido pois o numero de clusters pretendido era 3
+	mas existem muitas imagens mal capturadas.
+	Quanto ao epsilon, focamo-nos na precisão pois foi o parâmetro que revelou melhores resultados.
+	Contudo, o angoritmo dbscan não demonstrou ser muito preciso e os resultados obtidos não formam os melhores
+	
+	
 Q6: Seleccione alguns valores dos parâmetros testados na questão cinco e examine os clusters correspondentes com mais atenção, gerando o ficheiro HTML com as imagens. Justifique a escolha destes valores, discuta as diferentes opções e proponha uma recomendação que poderia ajudar a tarefa dos biólogos de classificar as células e rejeitar erros de segmentação.
-R6: [0,4,13]???
+R6: Quanto ao k-means selecionamos o valor 4 para podermos ter um cluster que classifica as imagens que continham erros de captura.
+Quanto ao dbscan, escolhemos o valor 450 pois foi o valor que tinha maior precisão.
 
 Q7: Discuta vantagens, problemas ou otros aspectos destes dois algoritmos (K-Means e DBSCAN) que considere relevantes para ajudar os biólogos a organizar estas imagens, considerando o seu conhecimento teórico destes algoritmos bem como os resultados que obteve no seu trabalho.
 R7: K-Means tem a vantagem de colocar o número de clusters que queremos, pois se sabemos o número de fases temos que gerantir que haja 3 clusters.
