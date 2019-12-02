@@ -11,12 +11,12 @@ def gmm(data):
 def birch(data):
     return cluster.Birch(n_clusters=4).fit_predict(data)
 
-def kmean_cluster(data):
-    return KMeans(n_clusters=4,max_iter=300).fit_predict(data)
+def kmean_cluster(data, k=4,max_iter=300):
+    return KMeans(n_clusters=k,max_iter=max_iter).fit_predict(data)
 
-def dbsan_cluster(data):
-    return DBSCAN(eps=350, min_samples=2).fit_predict(data)
-    
+def dbsan_cluster(data,min_samples=5,eps = 350):
+    return DBSCAN(eps=eps, min_samples=min_samples).fit_predict(data)
+     
 def tunning_eps(data):
     zeros = [0] * 563
     neigh = KNeighborsClassifier(n_neighbors=5).fit(X=data,y=zeros)
