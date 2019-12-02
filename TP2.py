@@ -5,6 +5,7 @@ from tp2_aux import images_as_matrix,report_clusters
 from cluster import kmean_cluster,dbsan_cluster,gmm,birch
 import numpy as np
 from sklearn.neighbors import KNeighborsClassifier
+import matplotlib.pyplot as plt
 
 FEATURES = 18
 SIZE = 564
@@ -34,6 +35,59 @@ def main():
 
 t = main()
 
+def plot_indexes(k,s,pre,aj,rcall,f1,filename):
+    fig,ax = plt.subplots(figsize=(8,6))
+    ax.plot(k,s,label='silhouette_score')
+    ax.plot(k,pre,label='precision_score')
+    ax.plot(k,aj,label='adjusted_rand_score')
+    ax.plot(k,rcall,label='recall_score')
+    ax.plot(k,f1,label='f1_score')
+    plt.legend()
+    plt.savefig(filename,dpi=300)
+
+
+import sklearn.metrics as metrics
+
+#Plot Internal and external param.
+# K means
+
+l = np.loadtxt("labels.txt",skiprows=1,delimiter=",")
+
+k = [2,3,4,5,6,7,8,9,10]
+sk = [] #silhouette_score for k_means
+prek = [] #precision_score for k_means
+ajk = []#adjusted_rand_score for k_means
+rcallk = []#recall_score for k_means
+f1k = []#f1_score for k_means
+
+for i in k:
+    sk.append(metrics.silhouette_score(t,kmean_cluster(t,k=i)))
+    prek.append(metrics.precision_score(l[:,1][l[:,1] > 0] - 1,kmean_cluster(t,k=i)[l[:,1] > 0], average='weighted'))
+    ajk.append(metrics.adjusted_rand_score(l[:,1][l[:,1] > 0] - 1,kmean_cluster(t,k=i)[l[:,1] > 0]))
+    rcallk.append(metrics.recall_score(l[:,1][l[:,1] > 0] - 1,kmean_cluster(t,k=i)[l[:,1] > 0], average='weighted'))
+    f1k.append(metrics.f1_score(l[:,1][l[:,1] > 0] - 1,kmean_cluster(t,k=i)[l[:,1] > 0], average='weighted'))
+    
+plot_indexes(k,sk,prek,ajk,rcallk,f1k,"kmeans_indi.png")
+
+
+e = np.linspace(400,1000,num=1000)
+sd = [] #silhouette_score for dbsan_cluster
+pred = [] #precision_score for dbsan_cluster
+ajd = []#adjusted_rand_score for dbsan_cluster
+rcalld = []#recall_score for dbsan_cluster
+f1d = []#f1_score for dbsan_cluster
+
+for i in e:
+    sd.append(metrics.silhouette_score(t,dbsan_cluster(t,eps=i)))
+    pred.append(metrics.precision_score(l[:,1][l[:,1] > 0] - 1,dbsan_cluster(t,eps=i)[l[:,1] > 0], average='weighted'))
+    ajd.append(metrics.adjusted_rand_score(l[:,1][l[:,1] > 0] - 1,dbsan_cluster(t,eps=i)[l[:,1] > 0]))
+    rcalld.append(metrics.recall_score(l[:,1][l[:,1] > 0] - 1,dbsan_cluster(t,eps=i)[l[:,1] > 0], average='weighted'))
+    f1d  .append(metrics.f1_score(l[:,1][l[:,1] > 0] - 1,dbsan_cluster(t,eps=i)[l[:,1] > 0], average='weighted'))
+    
+plot_indexes(e,sd,pred,ajd,rcalld,f1d,"dbsan_indi.png")
+
+
+
 #from sklearn.feature_selection import f_classif
 
 
@@ -43,12 +97,14 @@ t = main()
 #f,prob = f_classif(X,y)
 
 
-import matplotlib.pyplot as plt
+
 
 from sklearn.neighbors import KernelDensity
 
 
-l = np.loadtxt("labels.txt",skiprows=1,delimiter=",")
+
+
+
 
 #0,2,8,12,14,9,
 #0 tudo
