@@ -14,7 +14,7 @@ def birch(data):
 def kmean_cluster(data, k=4,max_iter=300):
     return KMeans(n_clusters=k,max_iter=max_iter).fit_predict(data)
 
-def dbsan_cluster(data,min_samples=5,eps = 350):
+def dbsan_cluster(data,min_samples=5,eps = 450):
     return DBSCAN(eps=eps, min_samples=min_samples).fit_predict(data)
      
 def tunning_eps(data):
